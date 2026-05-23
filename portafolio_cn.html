@@ -1,0 +1,393 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0f1e;--surf:#111827;--card:#161f35;--bord:#1e2d4a;
+  --acc:#3b82f6;--acc2:#06b6d4;--ok:#10b981;--warn:#f59e0b;
+  --txt:#e2e8f0;--mut:#64748b;--head:#f8fafc;
+  --ff:'Sora',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+body{background:var(--bg);color:var(--txt);font-family:var(--ff);font-size:14px;line-height:1.6}
+.wrap{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+.hero{text-align:center;padding:3rem 0 2rem}
+.badge{display:inline-block;font-family:var(--fm);font-size:11px;color:var(--acc);border:1px solid rgba(59,130,246,.3);padding:4px 14px;border-radius:20px;margin-bottom:1.2rem;letter-spacing:.05em;background:rgba(59,130,246,.07)}
+.hero h1{font-size:2rem;font-weight:600;color:var(--head);line-height:1.2;margin-bottom:.5rem}
+.hero h1 span{color:var(--acc)}
+.hero-meta{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem}
+.meta-item{font-size:12px;color:var(--mut);font-family:var(--fm)}
+.meta-item strong{color:var(--txt);display:block;font-size:13px;margin-bottom:2px}
+.intro-card{background:var(--card);border:1px solid var(--bord);border-left:3px solid var(--acc);border-radius:0 12px 12px 0;padding:1.25rem 1.5rem;margin-bottom:2rem}
+.intro-card p{color:var(--txt);font-size:13.5px;line-height:1.8;margin-bottom:.5rem}
+.intro-card p:last-child{margin-bottom:0}
+.sec-title{display:flex;align-items:center;gap:10px;margin:2.5rem 0 1.2rem;font-size:.75rem;color:var(--mut);text-transform:uppercase;letter-spacing:.12em;font-family:var(--fm)}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--bord)}
+.unit-hdr{background:var(--card);border:1px solid var(--bord);border-radius:10px;padding:.85rem 1.1rem;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s,background .2s}
+.unit-hdr:hover{border-color:rgba(59,130,246,.5);background:#1a2540}
+.unit-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.unit-name{font-weight:500;font-size:14px;color:var(--head);flex:1}
+.unit-count{font-size:11px;font-family:var(--fm);color:var(--mut);flex-shrink:0}
+.chev{color:var(--mut);font-size:12px;transition:transform .25s;flex-shrink:0;margin-left:4px}
+.unit-body{display:none;margin-bottom:1.2rem;padding-left:4px}
+.unit-body.open{display:block}
+.ev-card{background:var(--surf);border:1px solid var(--bord);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.ev-top{display:flex;align-items:flex-start;gap:12px;padding:.9rem 1.1rem .6rem}
+.ev-id{font-family:var(--fm);font-size:11px;color:var(--mut);flex-shrink:0;padding-top:2px;min-width:52px}
+.ev-info{flex:1}
+.ev-title{font-size:13.5px;font-weight:500;color:var(--head);margin-bottom:4px}
+.ev-desc{font-size:12.5px;color:var(--txt);line-height:1.7;margin-bottom:4px}
+.ev-learn{font-size:12px;color:#60a5fa;line-height:1.6;padding:.5rem .75rem;background:rgba(59,130,246,.07);border-radius:6px;margin-top:6px;border-left:2px solid rgba(59,130,246,.3)}
+.ev-learn strong{color:#93c5fd;font-size:11px;display:block;margin-bottom:2px;font-family:var(--fm);text-transform:uppercase;letter-spacing:.05em}
+.ev-footer{padding:.5rem 1.1rem .7rem 1.1rem;display:flex;align-items:center;gap:8px;border-top:1px solid var(--bord)}
+.tag{display:inline-block;font-size:10.5px;font-family:var(--fm);padding:2px 9px;border-radius:20px;border:1px solid}
+.tag.prac{color:#34d399;border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.07)}
+.tag.invest{color:#60a5fa;border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.07)}
+.tag.sinop{color:#a78bfa;border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.07)}
+.tag.expo{color:#fbbf24;border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.07)}
+.tag.azure{color:#38bdf8;border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.07)}
+.tag.gcp{color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.07)}
+.tag.aws{color:#fb923c;border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.07)}
+.tag.docker{color:#67e8f9;border-color:rgba(103,232,249,.3);background:rgba(103,232,249,.07)}
+.reflex-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem}
+.rx-card{background:var(--card);border:1px solid var(--bord);border-radius:10px;padding:1rem 1.1rem}
+.rx-card h4{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:.5rem}
+.rx-card p{font-size:13px;line-height:1.65;color:var(--txt)}
+.conc-card{background:var(--card);border:1px solid var(--bord);border-left:3px solid var(--ok);border-radius:0 12px 12px 0;padding:1.25rem 1.5rem;margin-top:1rem}
+.conc-card p{font-size:13.5px;line-height:1.8;color:var(--txt)}
+.footer{text-align:center;padding:2.5rem 0 1rem;color:var(--mut);font-family:var(--fm);font-size:11px;border-top:1px solid var(--bord);margin-top:3rem}
+@media(max-width:600px){.reflex-grid{grid-template-columns:1fr}.hero h1{font-size:1.5rem}}
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="badge">TecNM Saltillo · Cómputo en la Nube · MSB</div>
+    <h1>Portafolio de <span>Evidencias</span></h1>
+    <p style="color:var(--mut);font-size:14px;margin-top:.5rem">Ingeniería en Sistemas Computacionales</p>
+    <div class="hero-meta">
+      <div class="meta-item"><strong>Materia</strong>Cómputo en la Nube</div>
+      <div class="meta-item"><strong>División</strong>Sistemas / Saltillo</div>
+      <div class="meta-item"><strong>Institución</strong>TecNM</div>
+      <div class="meta-item"><strong>Periodo</strong>2024–2025</div>
+    </div>
+  </div>
+
+  <div class="sec-title">introducción</div>
+  <div class="intro-card">
+    <p>Este portafolio documenta el conjunto de actividades, investigaciones y prácticas realizadas a lo largo del curso de Cómputo en la Nube. A través de cinco unidades temáticas, se abordaron fundamentos conceptuales, exploración de plataformas cloud (AWS, GCP, Azure), ciberseguridad ofensiva y defensiva, y el despliegue real de infraestructura en la nube.</p>
+    <p>Cada evidencia representa un paso concreto en la construcción de competencias para diseñar, proteger y operar sistemas en entornos de nube pública y privada, habilidades fundamentales para el ingeniero en sistemas de hoy.</p>
+  </div>
+
+  <div class="sec-title">evidencias por unidad</div>
+  <div id="units"></div>
+
+  <div class="sec-title">reflexión final</div>
+  <div class="reflex-grid">
+    <div class="rx-card">
+      <h4>Fortalezas desarrolladas</h4>
+      <p>Comprensión sólida de arquitectura de redes y modelos de servicio cloud (IaaS, PaaS, SaaS). Habilidades prácticas en ciberseguridad, contenerización con Docker y manejo de plataformas como GCP y GitHub.</p>
+    </div>
+    <div class="rx-card">
+      <h4>Áreas de oportunidad</h4>
+      <p>Profundizar en el ciclo completo de despliegue en Azure: creación de VM, configuración LAMP y publicación de aplicaciones CRUD. Completar la migración a servicios administrados como siguiente paso natural.</p>
+    </div>
+    <div class="rx-card">
+      <h4>Aprendizaje más significativo</h4>
+      <p>Entender que la nube no es solo almacenamiento remoto, sino una plataforma viva que requiere conocimientos de redes, seguridad, automatización y diseño de software para aprovecharse correctamente.</p>
+    </div>
+    <div class="rx-card">
+      <h4>Aplicación futura</h4>
+      <p>Estas bases abren el camino hacia certificaciones cloud (AWS, Azure, GCP), desarrollo de aplicaciones cloud-native con contenedores, y la implementación de pipelines DevOps en entornos profesionales.</p>
+    </div>
+  </div>
+
+  <div class="sec-title">conclusión</div>
+  <div class="conc-card">
+    <p>Este portafolio representa un trayecto de aprendizaje integral en torno al Cómputo en la Nube. Cada actividad, desde las síntesis conceptuales hasta las prácticas en servidores reales de Azure y GCP, contribuyó a construir una visión profesional de cómo funciona la infraestructura tecnológica moderna. Documentar estas evidencias permitió además reconocer logros concretos y trazar un camino claro de mejora continua hacia el dominio de las tecnologías cloud.</p>
+  </div>
+
+  <div class="footer">Portafolio de Evidencias · Cómputo en la Nube · TecNM Saltillo · MSB · 2024–2025</div>
+</div>
+
+<script>
+const data = [
+  {
+    name:"Unidad 1 · Fundamentos del Cómputo en la Nube",
+    color:"#3b82f6",
+    items:[
+      {
+        id:"1.1", title:"Arquitectura de red de computadoras",
+        tipo:"invest",
+        tipoLabel:"Investigación",
+        tags:["invest"],
+        desc:"Se diseñó una arquitectura de red local para alojar una aplicación web usando Linux, Apache2, PHP y MySQL. Se propuso una estructura con tres servidores separados: uno para la aplicación web, uno para la base de datos MySQL y uno como único punto de salida a internet, incluyendo firewall, DMZ y configuración de dominio.",
+        learn:"Se comprendió cómo se estructura físicamente una red local orientada a servicios web, la importancia de separar responsabilidades entre servidores y cómo el concepto de DMZ protege los recursos internos de exposición directa a internet."
+      },
+      {
+        id:"1.2", title:"Síntesis de las características del Cómputo en la Nube",
+        tipo:"sinop",
+        tipoLabel:"Síntesis escrita",
+        tags:["sinop"],
+        desc:"Se elaboró una síntesis de una cuartilla escrita a mano sobre los conceptos clave del cómputo en la nube: escalabilidad, elasticidad, accesibilidad remota, aislamiento de recursos, alta disponibilidad, autoservicio, cumplimiento normativo y flexibilidad. El texto fue redactado en prosa, en tercera persona.",
+        learn:"Se consolidó la comprensión de las características que hacen al cómputo en la nube una tecnología diferente al hospedaje tradicional, especialmente la elasticidad bajo demanda y la disponibilidad garantizada como pilares del modelo."
+      },
+      {
+        id:"1.3", title:"Ventajas, desventajas y riesgos del Cómputo en la Nube",
+        tipo:"sinop",
+        tipoLabel:"Cuestionario escrito",
+        tags:["sinop"],
+        desc:"Se respondieron las tres preguntas del tema 1.3.5 del documento de Educatec, redactadas en prosa y a mano alzada. Se abordaron las ventajas operativas del modelo cloud, sus desventajas como la dependencia del proveedor, y riesgos como pérdida de datos, accesos no autorizados y problemas de privacidad.",
+        learn:"Se aprendió a evaluar críticamente el modelo cloud, reconociendo que sus ventajas en escalabilidad y costo vienen acompañadas de riesgos reales que deben gestionarse con políticas de seguridad y contratos de nivel de servicio (SLA)."
+      },
+      {
+        id:"1.4", title:"Mapa mental de los elementos del Cómputo en la Nube",
+        tipo:"expo",
+        tipoLabel:"Mapa mental",
+        tags:["expo"],
+        desc:"Se organizó un mapa mental con los conceptos centrales del cómputo en la nube: definición, arquitectura, características, ventajas, desventajas, modelos de implementación (público, privado, híbrido) y modelos de servicio IaaS, PaaS y SaaS.",
+        learn:"La construcción del mapa mental permitió visualizar cómo todos los conceptos del curso se interconectan, facilitando una comprensión global del ecosistema cloud y sus distintas capas de abstracción."
+      },
+    ]
+  },
+  {
+    name:"Unidad 2 · Plataformas y Servicios Cloud",
+    color:"#06b6d4",
+    items:[
+      {
+        id:"2.1", title:"Explorar la plataforma AWS",
+        tipo:"invest",
+        tipoLabel:"Exploración",
+        tags:["invest","aws"],
+        desc:"Se exploró el catálogo de servicios de Amazon Web Services, identificando los principales servicios de cómputo (EC2, Lambda), almacenamiento (S3), bases de datos (RDS, DynamoDB), redes (VPC) y seguridad (IAM). Se documentaron casos de uso representativos de cada categoría.",
+        learn:"Se entendió la amplitud del ecosistema AWS y cómo su modelo de precios por uso permite escalar desde proyectos pequeños hasta infraestructuras empresariales sin inversión inicial en hardware."
+      },
+      {
+        id:"2.2", title:"Explorar Google Cloud Platform (GCP)",
+        tipo:"invest",
+        tipoLabel:"Exploración",
+        tags:["invest","gcp"],
+        desc:"Se elaboró un documento estructurado sobre GCP revisando servicios como Compute Engine, App Engine, Cloud Run, Cloud Storage, Cloud SQL, Firestore, BigQuery, VPC, Load Balancing, IAM y Security Command Center. Se incluyeron casos de uso y preguntas de análisis.",
+        learn:"Se reconoció a GCP como una plataforma sólida para cargas de trabajo de análisis de datos y machine learning, con herramientas como BigQuery que ofrecen capacidades de procesamiento a escala sin infraestructura propia."
+      },
+      {
+        id:"2.3", title:"Actividad GitHub",
+        tipo:"prac",
+        tipoLabel:"Práctica",
+        tags:["prac"],
+        desc:"Se realizó una actividad práctica usando GitHub, la plataforma de control de versiones basada en Git. Se trabajaron conceptos de repositorios, commits, ramas y colaboración, estableciendo la base para flujos de trabajo DevOps y despliegue continuo en la nube.",
+        learn:"Se comprendió por qué el control de versiones es un pilar del desarrollo moderno en la nube: sin Git no existe CI/CD, y sin CI/CD no existe despliegue ágil en plataformas como Azure DevOps, GitHub Actions o Cloud Build."
+      },
+      {
+        id:"2.4", title:"Explorar la plataforma Microsoft Azure",
+        tipo:"invest",
+        tipoLabel:"Investigación",
+        tags:["invest","azure"],
+        desc:"Se desarrolló una investigación detallada sobre Microsoft Azure cubriendo servicios de cómputo, almacenamiento (Blob, Files), bases de datos (Azure SQL, Cosmos DB), redes (Virtual Network, Load Balancer), seguridad (Azure Active Directory, MFA), inteligencia artificial y comparación con AWS y GCP.",
+        learn:"Se identificó a Azure como el proveedor preferido en entornos empresariales por su integración nativa con el ecosistema Microsoft (Active Directory, Office 365, Windows Server), lo que reduce la curva de adopción en empresas ya consolidadas."
+      },
+      {
+        id:"Examen", title:"Examen — Arquitectura de la Nube (Cap. 2)",
+        tipo:"expo",
+        tipoLabel:"Evaluación",
+        tags:["sinop"],
+        desc:"Se presentó el examen del capítulo 2 abarcando el modelo NIST del cómputo en la nube, tipos de nube, modelos de servicio IaaS/PaaS/SaaS, responsabilidad compartida, IAM, MFA, riesgos y ejemplos reales de servicios. Resultado: 100/100.",
+        learn:"La preparación para el examen consolidó el marco teórico completo del curso, especialmente el modelo de responsabilidad compartida que define qué protege el proveedor cloud y qué debe proteger el usuario."
+      },
+    ]
+  },
+  {
+    name:"Unidad 3 · Microservicios y DevOps",
+    color:"#8b5cf6",
+    items:[
+      {
+        id:"3.1", title:"Sinopsis de los microservicios y flujo DevOps",
+        tipo:"sinop",
+        tipoLabel:"Sinopsis",
+        tags:["sinop"],
+        desc:"Se elaboró una sinopsis sobre la arquitectura de microservicios como alternativa a las aplicaciones monolíticas, y sobre el flujo DevOps que integra desarrollo y operaciones en un ciclo continuo de integración, entrega y despliegue. Se revisaron conceptos de pipelines CI/CD, contenedores y orquestación.",
+        learn:"Se comprendió por qué la industria migra hacia microservicios: permiten que equipos independientes desarrollen, prueben y desplieguen componentes sin afectar al resto del sistema, habilitando entregas más rápidas y tolerancia a fallos aislada."
+      },
+    ]
+  },
+  {
+    name:"Unidad 4 · Ciberseguridad en la Nube",
+    color:"#f59e0b",
+    items:[
+      {
+        id:"4.1", title:"Práctica — Escalada de privilegios",
+        tipo:"prac",
+        tipoLabel:"Práctica",
+        tags:["prac"],
+        desc:"Se realizó una práctica de seguridad informática demostrando técnicas de escalada de privilegios en un entorno controlado. Se identificaron vulnerabilidades comunes en configuraciones de sistemas Linux que permiten a un usuario sin permisos obtener acceso de administrador.",
+        learn:"Se entendió que la seguridad de un servidor en la nube no depende solo del proveedor: una mala configuración de permisos en el sistema operativo puede comprometer toda la infraestructura, independientemente de que esté en AWS, Azure o GCP."
+      },
+      {
+        id:"4.2", title:"Práctica — Inyección SQL",
+        tipo:"prac",
+        tipoLabel:"Práctica",
+        tags:["prac"],
+        desc:"Se configuró un entorno con una base de datos vulnerable_db en MySQL y un archivo login.php sin protección. Se demostró cómo la entrada admin' -- permite saltarse la autenticación. Posteriormente se aplicó la mitigación usando consultas preparadas con bind_param, eliminando la vulnerabilidad.",
+        learn:"Se aprendió que la inyección SQL sigue siendo una de las vulnerabilidades más comunes en aplicaciones web. El uso de consultas preparadas no es opcional sino una práctica fundamental de desarrollo seguro, especialmente en aplicaciones expuestas en la nube."
+      },
+      {
+        id:"4.3", title:"Hardening en servidor web Apache 2",
+        tipo:"prac",
+        tipoLabel:"Práctica",
+        tags:["prac"],
+        desc:"Se aplicaron configuraciones de hardening sobre un servidor Apache2 para reducir su superficie de ataque: deshabilitación de módulos innecesarios, ocultamiento de información del servidor, configuración de cabeceras de seguridad HTTP (X-Frame-Options, Content-Security-Policy) y restricción de métodos HTTP.",
+        learn:"Se comprendió que desplegar un servidor en la nube sin hardening equivale a dejar la puerta principal abierta. El endurecimiento del servidor es el primer paso para una estrategia de defensa en profundidad."
+      },
+      {
+        id:"4.5", title:"Comandos Dorks de Google",
+        tipo:"invest",
+        tipoLabel:"Investigación",
+        tags:["invest"],
+        desc:"Se investigaron y practicaron los Google Dorks, operadores avanzados de búsqueda que permiten encontrar información sensible indexada públicamente como archivos de configuración, paneles de administración expuestos, credenciales y directorios abiertos.",
+        learn:"Se aprendió que la información pública es una superficie de ataque real: los atacantes usan Dorks para reconocimiento previo sin tocar el objetivo directamente. Esto refuerza la importancia de revisar qué expone un servidor antes de ponerlo en producción."
+      },
+      {
+        id:"4.6", title:"Aspectos de la ciberseguridad en la nube",
+        tipo:"expo",
+        tipoLabel:"Lluvia de ideas",
+        tags:["expo"],
+        desc:"Se elaboró una lluvia de conceptos sobre ciberseguridad en entornos cloud cubriendo pilares como confidencialidad, integridad, disponibilidad, gestión de identidades (IAM), cifrado en tránsito y en reposo, auditoría de logs y cumplimiento normativo (GDPR, ISO 27001).",
+        learn:"Se reconoció que la ciberseguridad en la nube es un dominio amplio y multidisciplinario. No basta con configurar un firewall: requiere una estrategia integral que involucra identidades, datos, redes, aplicaciones y cumplimiento regulatorio."
+      },
+      {
+        id:"4.7", title:"Encontrar la contraseña — OverTheWire",
+        tipo:"prac",
+        tipoLabel:"CTF / Wargame",
+        tags:["prac"],
+        desc:"Se resolvieron niveles del wargame OverTheWire (Bandit), un entorno gamificado para aprender seguridad en Linux. Se practicaron comandos de terminal, lectura de archivos ocultos, permisos, redirección y decodificación para avanzar nivel a nivel.",
+        learn:"Se desarrolló fluidez en la terminal de Linux, habilidad crítica para administrar servidores en la nube donde no existe interfaz gráfica. Además se internalizó la mentalidad del atacante como herramienta para mejorar la defensa."
+      },
+      {
+        id:"4.8", title:"Amenazas y riesgos en el Cómputo en la Nube",
+        tipo:"sinop",
+        tipoLabel:"Síntesis",
+        tags:["sinop"],
+        desc:"Se desarrolló una síntesis sobre los principales riesgos del uso de servicios cloud: pérdida de datos, accesos no autorizados, fallas de seguridad, dependencia del proveedor (vendor lock-in), ataques DDoS, errores de configuración y problemas de privacidad de la información.",
+        learn:"Se aprendió a distinguir entre amenazas externas (ataques) e internas (errores de configuración), siendo estas últimas la causa más frecuente de incidentes cloud según reportes de la industria como el Cloud Security Report de Verizon."
+      },
+      {
+        id:"4.9", title:"Políticas de ciberseguridad en la nube",
+        tipo:"invest",
+        tipoLabel:"Investigación",
+        tags:["invest"],
+        desc:"Se investigaron y analizaron políticas de ciberseguridad aplicables a entornos cloud: gestión de accesos mínimos (principio de mínimo privilegio), rotación de credenciales, monitoreo continuo, respuesta a incidentes y marcos normativos como NIST Cybersecurity Framework y CIS Controls.",
+        learn:"Se comprendió que las políticas de seguridad no son burocracia: son el contrato interno que define quién puede hacer qué, cuándo y cómo. Sin políticas claras, la gestión de una infraestructura cloud escala en caos."
+      },
+      {
+        id:"4.10", title:"Análisis de tráfico de red con Wireshark",
+        tipo:"prac",
+        tipoLabel:"Práctica",
+        tags:["prac"],
+        desc:"Se utilizó Wireshark para capturar y analizar tráfico de red en tiempo real. Se identificaron paquetes de protocolos como HTTP, DNS y TCP, se filtraron conversaciones específicas y se detectaron patrones que podrían indicar actividad maliciosa o comunicaciones sin cifrado.",
+        learn:"Se aprendió que el tráfico de red es una fuente de información invaluable para detectar amenazas. Comprender los protocolos a nivel de paquete permite identificar qué datos viajan expuestos y tomar decisiones de cifrado o segmentación informadas."
+      },
+    ]
+  },
+  {
+    name:"Unidad 5 · Infraestructura y Despliegue en la Nube",
+    color:"#10b981",
+    items:[
+      {
+        id:"5.2", title:"Arquitectura de red en la nube — caso real (GCP)",
+        tipo:"invest",
+        tipoLabel:"Análisis y diseño",
+        tags:["invest","gcp"],
+        desc:"Se propuso y documentó una arquitectura de red en GCP para una institución educativa, incluyendo servicios académicos, almacenamiento, base de datos Cloud SQL, gestión de usuarios con IAM, balanceo de carga y seguridad perimetral con VPC y reglas de firewall.",
+        learn:"Se aprendió que diseñar una arquitectura cloud no es conectar servicios al azar: cada decisión tiene implicaciones de costo, seguridad y latencia. El ejercicio con un caso real obliga a justificar cada componente con criterios de ingeniería."
+      },
+      {
+        id:"5.3", title:"Introducción a la contenerización y virtualización",
+        tipo:"sinop",
+        tipoLabel:"Curso / Síntesis",
+        tags:["sinop","docker"],
+        desc:"Se completó un curso introductorio sobre contenerización y virtualización, diferenciando máquinas virtuales (hipervisor) de contenedores (Docker). Se estudiaron conceptos como imágenes, capas, volúmenes, redes de contenedores y el rol de los contenedores en arquitecturas cloud-native.",
+        learn:"Se entendió por qué los contenedores revolucionaron el despliegue de aplicaciones: al empaquetar el código con todas sus dependencias, eliminan el clásico problema de 'funciona en mi máquina' y habilitan despliegues reproducibles en cualquier nube."
+      },
+      {
+        id:"5.4", title:"Instalación de Docker",
+        tipo:"prac",
+        tipoLabel:"Práctica",
+        tags:["prac","docker"],
+        desc:"Se instaló y configuró Docker en una máquina local, se descargaron imágenes desde Docker Hub, se crearon y ejecutaron contenedores, se gestionaron volúmenes persistentes y se exploraron comandos esenciales como docker run, docker ps, docker build y docker-compose.",
+        learn:"La práctica con Docker estableció una habilidad fundamental: cualquier aplicación puede empaquetarse en un contenedor y desplegarse en segundos en AWS (ECS/EKS), Azure (ACI/AKS) o GCP (Cloud Run/GKE) sin modificar el código fuente."
+      },
+      {
+        id:"5.7", title:"Creación de VM en la nube (Azure)",
+        tipo:"prac",
+        tipoLabel:"Práctica Azure",
+        tags:["prac","azure"],
+        desc:"Se creó una máquina virtual en Microsoft Azure desde el portal, seleccionando sistema operativo (Ubuntu Server), región, tamaño de instancia, configuración de red virtual (VNet), grupo de seguridad (NSG) con reglas de entrada, y acceso por SSH mediante clave pública.",
+        learn:"Se aprendió el flujo completo de aprovisionamiento de infraestructura en Azure: desde la selección del plan hasta la conexión remota. Esto es la base de todo despliegue cloud: sin una VM correctamente configurada y segura, ningún servicio puede funcionar."
+      },
+      {
+        id:"5.8", title:"Instalación del entorno LAMP en Azure",
+        tipo:"prac",
+        tipoLabel:"Práctica Azure",
+        tags:["prac","azure"],
+        desc:"Sobre la VM creada en Azure se instaló y configuró el stack LAMP: Linux (Ubuntu), Apache2 como servidor web, MySQL como gestor de base de datos y PHP como lenguaje del servidor. Se verificó el correcto funcionamiento accediendo a la IP pública de la VM desde el navegador.",
+        learn:"Se comprendió que desplegar LAMP en la nube es conceptualmente igual que hacerlo localmente, pero con implicaciones reales de seguridad: el servidor es accesible desde internet, por lo que cada configuración incorrecta es una vulnerabilidad pública."
+      },
+      {
+        id:"5.9", title:"Despliegue de aplicación CRUD en Azure",
+        tipo:"prac",
+        tipoLabel:"Práctica Azure",
+        tags:["prac","azure"],
+        desc:"Se desplegó una aplicación CRUD funcional sobre el entorno LAMP en Azure. Los archivos se transfirieron por SCP al directorio /var/www/html, se configuró la conexión a la base de datos MySQL y se verificó el funcionamiento completo (crear, leer, actualizar y eliminar registros) desde el navegador, evidenciando que el contexto era la plataforma Azure.",
+        learn:"Este fue el ejercicio más integrador del curso: aplicó conocimientos de redes (puertos, NSG), servidor web (Apache), base de datos (MySQL), lenguaje del servidor (PHP) y plataforma cloud (Azure) en un flujo de trabajo real equivalente a un despliegue profesional."
+      },
+      {
+        id:"5.10", title:"Migración a servicios administrados",
+        tipo:"invest",
+        tipoLabel:"Investigación",
+        tags:["invest","azure","gcp","aws"],
+        desc:"Se investigó el proceso de migración desde infraestructura autoalojada (VM con LAMP) hacia servicios administrados como Azure App Service, Azure Database for MySQL, AWS Elastic Beanstalk o Google Cloud SQL, analizando ventajas de delegar la gestión del sistema operativo y las actualizaciones al proveedor.",
+        learn:"Se entendió que la migración a servicios administrados es la evolución natural de lo aprendido: reduce la carga operativa, mejora la disponibilidad con SLAs garantizados y permite al equipo enfocarse en la lógica de negocio en lugar de en la administración de servidores."
+      },
+    ]
+  },
+];
+
+function buildUnits(){
+  const container = document.getElementById('units');
+  data.forEach((unit,i)=>{
+    const hdr = document.createElement('div');
+    hdr.className='unit-hdr';
+    hdr.innerHTML=`<div class="unit-dot" style="background:${unit.color}"></div><div class="unit-name">${unit.name}</div><div class="unit-count">${unit.items.length} actividades</div><span class="chev">▾</span>`;
+
+    const body = document.createElement('div');
+    body.className='unit-body'+(i===0?' open':'');
+
+    unit.items.forEach(ev=>{
+    const tagMap={prac:'prac',invest:'invest',sinop:'sinop',expo:'expo',azure:'azure',gcp:'gcp',aws:'aws',docker:'docker'};
+    const tagLabelMap={prac:'Práctica',invest:'Investigación',sinop:'Síntesis',expo:'Exposición',azure:'Azure',gcp:'GCP',aws:'AWS',docker:'Docker'};
+    const tagsHtml = ev.tags.map(t=>`<span class="tag ${t}">${tagLabelMap[t]||t}</span>`).join(' ');
+    const card = document.createElement('div');
+    card.className='ev-card';
+    card.innerHTML=`
+      <div class="ev-top">
+        <div class="ev-id">${ev.id}</div>
+        <div class="ev-info">
+          <div class="ev-title">${ev.title}</div>
+          <div class="ev-desc">${ev.desc}</div>
+          <div class="ev-learn"><strong>Lo que aprendí</strong>${ev.learn}</div>
+        </div>
+      </div>
+      <div class="ev-footer">${tagsHtml}</div>
+    `;
+    body.appendChild(card);
+    });
+
+    hdr.addEventListener('click',()=>{
+      const isOpen = body.classList.toggle('open');
+      hdr.querySelector('.chev').style.transform = isOpen?'rotate(0)':'rotate(-90deg)';
+    });
+
+    container.appendChild(hdr);
+    container.appendChild(body);
+  });
+}
+buildUnits();
+</script>
